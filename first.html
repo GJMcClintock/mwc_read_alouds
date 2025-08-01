@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math With Confidence - First Grade Read Aloud</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+      background-color: #f4f6fa;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fefefe;
+    }
+    .video-section {
+      margin-top: 2rem;
+      display: none;
+      border-top: 1px solid #ddd;
+      padding-top: 1.5rem;
+    }
+    h2 {
+      color: #34495e;
+      margin-bottom: 1rem;
+    }
+    iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Math With Confidence - First Grade Read Aloud</h1>
+    <label for="video-select">Choose a week:</label>
+    <select id="video-select">
+      <option value="">-- Select a video --</option>
+    </select>
+
+    <div id="video-display" class="video-section">
+      <h2 id="video-title"></h2>
+      <iframe id="video-frame" src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    const videoData = [
+ { week: 1, title: "Missing Math: A Number Mystery", url: "https://www.youtube.com/watch?v=J9i0t-p_gu8" }
+        ,{ week: 2, title: "Two Ways to Count to Ten: A Liberian Folktale", url: "https://www.youtube.com/watch?v=bgbdFKjSbI8" }
+        ,{ week: 3, title: "Anno's Counting Book", url: "https://www.youtube.com/watch?v=tPe2vvbXCWo&pp" }
+        ,{ week: 4, title: "Albert Adds Up!", url: "https://www.youtube.com/watch?v=dbUOD37LjV0" }
+        ,{ week: 5, title: "Domino Addition", url: "https://www.youtube.com/watch?v=Ml7ue4FvgL8" }
+        ,{ week: 6, title: "Math Fables: Lessons That Count", url: "https://www.youtube.com/watch?v=3Ahd0Kl5qgw" }
+        ,{ week: 7, title: "The Greedy Triangle", url: "https://www.youtube.com/watch?v=r3DsRKaNFmk" }
+        ,{ week: 8, title: "Captain Invincible and the Space Shapes", url: "https://www.youtube.com/watch?v=EO4KUJQt-kk" }
+        ,{ week: 9, title: "Handa's Surprise", url: "https://www.youtube.com/watch?v=oUdLhWdrITQ" }
+        ,{ week: 10, title: "Splash!", url: "https://www.youtube.com/watch?v=MjGvCjkuqkY" }
+        ,{ week: 11, title: "Applesauce Season", url: "https://www.youtube.com/watch?v=bEaaBuO96CM" }
+        ,{ week: 12, title: "Can You Count to a Googol", url: "https://www.youtube.com/watch?v=cgwySOKXtgo" }
+        ,{ week: 13, title: "Missing Mittens", url: "https://www.youtube.com/watch?v=5NDmrz8xMiQ&t" }
+        ,{ week: 14, title: "The Best Vacation Ever", url: "https://www.youtube.com/watch?v=IjOway5VuqM&pp" }
+        ,{ week: 15, title: "100 Bugs! A Counting Book", url: "https://www.youtube.com/watch?v=INOd22YF-AA" }
+        ,{ week: 16, title: "Chicka Chicka 1,2,3", url: "https://www.youtube.com/watch?v=TnOx1A5H2rE" }
+        ,{ week: 17, title: "Only One", url: "https://www.youtube.com/watch?v=vZi2L6TZALU" }
+        ,{ week: 18, title: "Measuring Penny", url: "https://www.youtube.com/watch?v=YXxj3TfTFM4" }
+        ,{ week: 19, title: "How Big Is a Foot?", url: "https://www.youtube.com/watch?v=p5vJrB68K_o" }
+        ,{ week: 20, title: "12 Ways to Get to 11", url: "https://www.youtube.com/watch?v=rJJ1HhSv4LY" }
+        ,{ week: 21, title: "What's New at the Zoo?", url: "https://www.youtube.com/watch?v=2J18N9jdR8c&pp" }
+        ,{ week: 22, title: "100 Snowmen", url: "https://www.youtube.com/watch?v=DCVS3B5zPQY" }
+        ,{ week: 23, title: "Game Time!", url: "https://www.youtube.com/watch?v=EOdFEkCmIKA" }
+        ,{ week: 24, title: "A Chair for My Mother", url: "https://www.youtube.com/watch?v=DEoEEWEnooI" }
+        ,{ week: 25, title: "The Penny Pot", url: "https://www.youtube.com/watch?v=C-UsgUgjyJU" }
+        ,{ week: 26, title: "Ready, Set, Hop!", url: "https://www.youtube.com/watch?v=juo9OTZEoCg" }
+        ,{ week: 27, title: "Math for All Seasons", url: "https://www.youtube.com/watch?v=JinEG7NhBtk" }
+        ,{ week: 28, title: "Counting on Frank", url: "https://www.youtube.com/watch?v=gUEc7Y_1RFU" }
+        ,{ week: 29, title: "Pigs Will Be Pigs", url: "https://www.youtube.com/watch?v=2bqsG3RiPRA" }
+        ,{ week: 30, title: "What's Faster Than a Speeding Cheetah?", url: "https://www.youtube.com/watch?v=YmmmAIX7Tbk" }
+        ,{ week: 31, title: "One Hundred Hungry Ants", url: "https://www.youtube.com/watch?v=kzq3YGXpi-4" }
+    ];
+
+    const select = document.getElementById("video-select");
+    const display = document.getElementById("video-display");
+    const title = document.getElementById("video-title");
+    const frame = document.getElementById("video-frame");
+
+    videoData.forEach(video => {
+      const option = document.createElement("option");
+      option.value = video.url;
+      option.textContent = `Week ${video.week} - ${video.title}`;
+      option.dataset.title = video.title;
+      select.appendChild(option);
+    });
+
+    select.addEventListener("change", () => {
+      const selected = select.options[select.selectedIndex];
+      if (!selected.value) {
+        display.style.display = "none";
+        return;
+      }
+      title.textContent = selected.dataset.title;
+      const embedUrl = selected.value.replace("watch?v=", "embed/");
+      frame.src = embedUrl;
+      display.style.display = "block";
+    });
+  </script>
+</body>
+</html>
