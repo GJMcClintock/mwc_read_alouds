@@ -89,6 +89,31 @@
     const gradeSelect = document.getElementById("grade-select");
     let videoData = [];
 
+    // Simple CSV line parser that respects quoted fields and escaped quotes ("")
+    function parseCSVLine(line) {
+      const out = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') { // escaped quote
+            cur += '"';
+            i++; // skip next quote
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === ',' && !inQuotes) {
+          out.push(cur);
+          cur = '';
+        } else {
+          cur += ch;
+        }
+      }
+      out.push(cur);
+      return out;
+    }
+
     // Populate the week dropdown whenever videoData changes
     function updateVideoSelect() {
       select.innerHTML = '<option value="">-- Select a video --</option>';
@@ -120,8 +145,10 @@
           const lines = txt.trim().split(/[\r\n]+/);
           // Assume CSV header: week,title,url
           videoData = lines.slice(1).map(line => {
-            const [week, title, url] = line.split(',');
-            return { week: +week, title, url };
+            const [weekStr, rawTitle, url] = parseCSVLine(line);
+            const week = +weekStr;
+            const title = rawTitle.replace(/^"|"$/g, ''); // remove surrounding quotes
+            return { week, title, url };
           });
           updateVideoSelect();
         })
