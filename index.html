@@ -3,104 +3,387 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Math with Confidence - Read Alouds</title>
+  <title>Math with Confidence — Read-Alouds</title>
+  <meta name="description" content="Weekly read-aloud videos to go with Kate Snow's Math with Confidence curriculum, for kindergarten through 2nd grade." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --ink: #22314a;
+      --ink-soft: #5b6b85;
+      --card: #ffffff;
+      --yellow: #ffc93c;
+      --coral: #ff7a59;
+      --teal: #14b8a6;
+      --violet: #7c5cff;
+      --radius: 22px;
+      --shadow: 0 10px 24px rgba(34, 49, 74, .10);
+      --shadow-lift: 0 16px 32px rgba(34, 49, 74, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 2rem;
-      background-color: #f4f6fa;
-      color: #333;
+      margin: 0;
+      padding: 1.25rem 1rem 3rem;
+      font-family: 'Fredoka', ui-rounded, system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 201, 60, .35), transparent 38%),
+        radial-gradient(circle at 88% 4%, rgba(124, 92, 255, .22), transparent 34%),
+        radial-gradient(circle at 78% 92%, rgba(20, 184, 166, .22), transparent 40%),
+        linear-gradient(165deg, #fff8ec 0%, #eaf6ff 55%, #f4ecff 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
     }
+
+    /* playful polka dots, pure CSS */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(34, 49, 74, .07) 1.5px, transparent 1.6px);
+      background-size: 26px 26px;
+      z-index: 0;
+    }
+
+    .wrap, .hero, footer { position: relative; z-index: 1; }
+
+    .wrap { max-width: 940px; margin: 0 auto; }
+
+    /* ---------- hero ---------- */
+    .hero { max-width: 940px; margin: 0 auto 1.5rem; text-align: center; padding: .5rem 0 0; }
+
+    .kicker {
+      display: inline-block;
+      margin: 0 0 .6rem;
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      font-size: .95rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--ink-soft);
+    }
+
     h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 8vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      background: linear-gradient(100deg, var(--coral), var(--yellow) 46%, var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 0 rgba(255, 255, 255, .6);
+    }
+
+    .sub {
+      margin: .7rem auto 0;
+      max-width: 34rem;
+      font-size: clamp(1rem, 3.6vw, 1.15rem);
+      color: var(--ink-soft);
+    }
+
+    /* ---------- grade buttons ---------- */
+    .grades {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin: 0 0 1rem;
+    }
+
+    .grade {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+      padding: 1rem .5rem;
+      min-height: 96px;
+      font: inherit;
+      font-size: clamp(1rem, 3.4vw, 1.2rem);
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--card);
+      border: 3px solid #e6ebf3;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .grade:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+    .grade .g-emoji { font-size: 1.7rem; line-height: 1; }
+
+    .grade[aria-pressed="true"] {
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lift);
+    }
+    .grade[data-grade="K"][aria-pressed="true"]   { background: var(--coral); }
+    .grade[data-grade="1st"][aria-pressed="true"] { background: var(--teal); }
+    .grade[data-grade="2nd"][aria-pressed="true"] { background: var(--violet); }
+
+    .note {
+      margin: 1rem 0 1.25rem;
+      padding: .8rem 1rem;
+      background: #fff9e4;
+      border: 2px dashed #ffd979;
+      border-radius: 16px;
+      font-size: .95rem;
+      color: #7a5c12;
       text-align: center;
-      margin-bottom: 2rem;
-      color: #2c3e50;
     }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: #ffffff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* ---------- player ---------- */
+    .player {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lift);
+      padding: 1.1rem;
+      margin-bottom: 1.5rem;
+      border: 3px solid #fff;
+      animation: pop .25s ease-out;
     }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 0.5rem;
+
+    @keyframes pop {
+      from { opacity: 0; transform: scale(.98) translateY(6px); }
+      to   { opacity: 1; transform: none; }
     }
-    select {
-      width: 100%;
-      padding: 0.75rem;
+
+    .player-head { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .7rem; margin-bottom: .8rem; }
+
+    .chip {
+      flex: none;
+      padding: .3rem .75rem;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-size: .85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .player h2 { margin: 0; font-size: clamp(1.2rem, 4.5vw, 1.6rem); font-weight: 600; }
+
+    .frame-wrap {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #0f172a;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+    .player-nav { display: flex; gap: .6rem; margin-top: .85rem; }
+
+    .player-nav button {
+      flex: 1;
+      padding: .75rem 1rem;
+      min-height: 48px;
+      font: inherit;
       font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: #fefefe;
+      font-weight: 600;
+      color: var(--ink);
+      background: #f2f5fa;
+      border: 2px solid #e2e8f2;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background .15s ease, transform .15s ease;
     }
-    .video-section {
-      margin-top: 2rem;
-      display: none;
-      border-top: 1px solid #ddd;
-      padding-top: 1.5rem;
+    .player-nav button:hover:not(:disabled) { background: #e8eefb; transform: translateY(-2px); }
+    .player-nav button:disabled { opacity: .4; cursor: default; }
+
+    /* ---------- week grid ---------- */
+    .weeks-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0 .2rem .7rem; }
+    .weeks-head h2 { margin: 0; font-size: 1.15rem; font-weight: 600; color: var(--ink-soft); }
+
+    .weeks {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: .75rem;
     }
-    h2 {
-      color: #34495e;
-      margin-bottom: 1rem;
+
+    .week-card {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .8rem .9rem;
+      min-height: 68px;
+      font: inherit;
+      text-align: left;
+      color: var(--ink);
+      background: var(--card);
+      border: 3px solid #e6ebf3;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
     }
-    iframe {
-      width: 100%;
-      height: 450px;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    .week-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: #cbd6e8; }
+
+    .wk-num {
+      flex: none;
+      width: 46px; height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #eef2ff;
+      color: #4338ca;
+      font-weight: 700;
+      font-size: .95rem;
+      line-height: 1;
+    }
+    .wk-num small { display: block; font-size: .6rem; font-weight: 600; letter-spacing: .04em; }
+
+    .wk-title { font-size: .98rem; font-weight: 500; line-height: 1.25; }
+
+    .week-card.is-active { border-color: currentColor; }
+    .week-card.is-active::after { content: "▶"; margin-left: auto; font-size: .85rem; }
+
+    /* grade accent on the active card + badge */
+    body[data-grade="K"] .week-card.is-active   { background: #fff1ec; border-color: var(--coral);  color: var(--coral); }
+    body[data-grade="1st"] .week-card.is-active { background: #e8fbf8; border-color: var(--teal);   color: #0d8f81; }
+    body[data-grade="2nd"] .week-card.is-active { background: #f1edff; border-color: var(--violet); color: var(--violet); }
+
+    body[data-grade="K"] .wk-num   { background: #fff1ec; color: #d94f28; }
+    body[data-grade="1st"] .wk-num { background: #e8fbf8; color: #0d8f81; }
+    body[data-grade="2nd"] .wk-num { background: #f1edff; color: #5b3ef0; }
+
+    .status { margin: 1rem .2rem; text-align: center; color: var(--ink-soft); font-size: .95rem; }
+    .status.is-error { color: #b42318; background: #fff1f0; border-radius: 14px; padding: .8rem 1rem; }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 2rem 1rem;
+      text-align: center;
+      color: var(--ink-soft);
+      background: rgba(255, 255, 255, .7);
+      border: 3px dashed #dbe3ef;
+      border-radius: var(--radius);
+      font-size: 1rem;
+    }
+
+    /* ---------- footer ---------- */
+    footer {
+      max-width: 940px;
+      margin: 2.25rem auto 0;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: .92rem;
+      line-height: 1.6;
+    }
+    footer a { color: #4338ca; font-weight: 500; }
+    footer a:hover { color: var(--coral); }
+
+    /* ---------- a11y ---------- */
+    :focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: 8px; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    @media (max-width: 420px) {
+      .grades { grid-template-columns: 1fr; }
+      .grade { flex-direction: row; justify-content: center; min-height: 64px; gap: .6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-      <h1>Math with Confidence Read‑Alouds</h1>
-      <p>Not all books are available on YouTube, so you may see some similar alternatives.</p>
-      <!-- Grade picker -->
-      <label for="grade-select">Select grade:</label>
-      <select id="grade-select">
-        <option value="">-- Select a grade --</option>
-        <!-- Manually add grade options below -->
-        <option value="K">K</option>
-        <option value="1st">1st</option>
-        <option value="2nd">2nd</option>
-      </select>
-    <label for="video-select">Choose a week:</label>
-    <select id="video-select">
-      <option value="">-- Select a video --</option>
-    </select>
+  <header class="hero">
+    <p class="kicker">📚 Math with Confidence</p>
+    <h1>Read-Alouds</h1>
+    <p class="sub">Pick a grade, then pick a week. Grab a cozy spot and enjoy a math story together!</p>
+  </header>
 
-    <div id="video-display" class="video-section">
-      <h2 id="video-title"></h2>
-      <iframe id="video-frame" src="" allowfullscreen></iframe>
-    </div>
-  </div>
+  <main class="wrap">
+    <section aria-labelledby="grade-heading">
+      <h2 id="grade-heading" class="sr-only">Choose a grade</h2>
+      <div class="grades" role="group" aria-label="Choose a grade">
+        <button type="button" class="grade" data-grade="K" aria-pressed="false">
+          <span class="g-emoji" aria-hidden="true">🐣</span><span class="g-name">Kindergarten</span>
+        </button>
+        <button type="button" class="grade" data-grade="1st" aria-pressed="false">
+          <span class="g-emoji" aria-hidden="true">🌟</span><span class="g-name">1st Grade</span>
+        </button>
+        <button type="button" class="grade" data-grade="2nd" aria-pressed="false">
+          <span class="g-emoji" aria-hidden="true">🚀</span><span class="g-name">2nd Grade</span>
+        </button>
+      </div>
+    </section>
 
-  <!-- Attribution footer -->
-  <p style="text-align:center; margin-top:1rem;">
-    This site is made as a support resource for Kate Snow's fantastic curriculum
+    <p class="note">💡 Not every book is available on YouTube, so a few weeks link to a similar read-aloud instead.</p>
+
+    <section id="player" class="player" hidden aria-label="Now playing">
+      <div class="player-head">
+        <span id="player-week" class="chip"></span>
+        <h2 id="player-title"></h2>
+      </div>
+      <div class="frame-wrap">
+        <iframe id="frame" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="player-nav">
+        <button type="button" id="prev" aria-label="Previous week">← Previous</button>
+        <button type="button" id="next" aria-label="Next week">Next →</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="weeks-heading">
+      <div class="weeks-head">
+        <h2 id="weeks-heading">Weeks</h2>
+      </div>
+      <div id="weeks" class="weeks">
+        <p class="empty">👆 Choose a grade above to see its read-aloud list.</p>
+      </div>
+    </section>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+
+  <footer>
+    A support resource for Kate Snow's wonderful curriculum
     <a href="https://kateshomeschoolmath.com/math-with-confidence-homeschool-math-curriculum/">Math with Confidence</a>,
-    published by
-    <a href="https://welltrainedmind.com/">Well-Trained Mind Press</a>.
-    <br><br>
-    You can find support for the curriculum in the <a href="https://www.facebook.com/share/g/19JAp9wRt6/">Math with Confidence Community</a> Facebook Group.
-  </p>
+    published by <a href="https://welltrainedmind.com/">Well-Trained Mind Press</a>.<br />
+    Curriculum support and community: <a href="https://www.facebook.com/share/g/19JAp9wRt6/">Math with Confidence Community</a> on Facebook.
+  </footer>
 
   <script>
-    const select = document.getElementById("video-select");
-    const display = document.getElementById("video-display");
-    const title = document.getElementById("video-title");
-    const frame = document.getElementById("video-frame");
+    /* --- helpers: tested by test/helpers.mjs --- */
+    // Turn any YouTube link (watch, youtu.be, live, shorts, embed) into an embed URL.
+    function toEmbed(url, { noCookie = true } = {}) {
+      let u;
+      try { u = new URL(url); } catch (e) { return null; }
+      let id = u.searchParams.get('v');
+      if (!id && /(^|\.)youtu\.be$/.test(u.hostname)) id = u.pathname.slice(1).split('/')[0];
+      if (!id) {
+        const m = u.pathname.match(/\/(?:embed|shorts|live|v)\/([A-Za-z0-9_-]{6,})/);
+        id = m ? m[1] : null;
+      }
+      if (!id) return null;
+      const host = noCookie ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com';
+      let out = `${host}/embed/${id}?rel=0`;
+      const t = +u.searchParams.get('t') || +u.searchParams.get('start');
+      if (t > 0) out += `&start=${t}`;
+      return out;
+    }
 
-    // --- Grade‑driven video loading ---
-    const gradeSelect = document.getElementById("grade-select");
-    let videoData = [];
-
-    // Simple CSV line parser that respects quoted fields and escaped quotes ("")
+    // CSV line parser that respects quoted fields and escaped quotes ("")
     function parseCSVLine(line) {
       const out = [];
       let cur = '';
@@ -108,12 +391,8 @@
       for (let i = 0; i < line.length; i++) {
         const ch = line[i];
         if (ch === '"') {
-          if (inQuotes && line[i + 1] === '"') { // escaped quote
-            cur += '"';
-            i++; // skip next quote
-          } else {
-            inQuotes = !inQuotes;
-          }
+          if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+          else { inQuotes = !inQuotes; }
         } else if (ch === ',' && !inQuotes) {
           out.push(cur);
           cur = '';
@@ -124,62 +403,135 @@
       out.push(cur);
       return out;
     }
+    /* --- end helpers --- */
 
-    // Populate the week dropdown whenever videoData changes
-    function updateVideoSelect() {
-      select.innerHTML = '<option value="">-- Select a video --</option>';
-      videoData.forEach(v => {
-        const opt = document.createElement("option");
-        opt.value = v.url;
-        opt.textContent = `Week ${v.week} - ${v.title}`;
-        opt.dataset.title = v.title;
-        select.appendChild(opt);
+    const gradeButtons = Array.from(document.querySelectorAll('.grade'));
+    const weeksEl = document.getElementById('weeks');
+    const statusEl = document.getElementById('status');
+    const player = document.getElementById('player');
+    const playerWeek = document.getElementById('player-week');
+    const playerTitle = document.getElementById('player-title');
+    const frame = document.getElementById('frame');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const GRADE_KEY = 'mwc-grade';
+
+    let videos = [];
+    let current = -1;
+
+    const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function setStatus(msg, isError = false) {
+      statusEl.textContent = msg || '';
+      statusEl.classList.toggle('is-error', !!isError);
+    }
+
+    function renderWeeks() {
+      weeksEl.innerHTML = '';
+      if (!videos.length) {
+        weeksEl.innerHTML = '<p class="empty">No weeks found for this grade yet. 🧐</p>';
+        return;
+      }
+      videos.forEach((v, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'week-card';
+        btn.dataset.index = i;
+
+        const num = document.createElement('span');
+        num.className = 'wk-num';
+        num.innerHTML = `<small>WEEK</small>${v.week}`;
+
+        const t = document.createElement('span');
+        t.className = 'wk-title';
+        t.textContent = v.title;
+
+        btn.append(num, t);
+        btn.addEventListener('click', () => select(i));
+        weeksEl.appendChild(btn);
       });
     }
 
+    function select(i) {
+      if (i < 0 || i >= videos.length) return;
+      current = i;
+      const v = videos[i];
 
-    // When a grade is selected, load its CSV and refresh the week list
-    gradeSelect.addEventListener('change', () => {
-      if (!gradeSelect.value) {
-        select.innerHTML = '<option value="">-- Select a video --</option>';
-        display.style.display = 'none';
-        return;
+      const embed = toEmbed(v.url);
+      playerWeek.textContent = `Week ${v.week}`;
+      playerTitle.textContent = v.title;
+      if (embed) {
+        frame.src = embed;
+        frame.title = `Read-aloud video: ${v.title}`;
+        frame.hidden = false;
+      } else {
+        frame.removeAttribute('src');
+        frame.hidden = true;
+        setStatus('Sorry — that week has a link we could not play here.', true);
       }
-      fetch(`grades/${gradeSelect.value}.csv`)
-        .then(r => {
-          if (!r.ok) {
-            throw new Error(`Could not load grades/${gradeSelect.value}.csv`);
-          }
-          return r.text();
-        })
-        .then(txt => {
-          const lines = txt.trim().split(/[\r\n]+/);
-          // Assume CSV header: week,title,url
-          videoData = lines.slice(1).map(line => {
-            const [weekStr, rawTitle, url] = parseCSVLine(line);
-            const week = +weekStr;
-            const title = rawTitle.replace(/^"|"$/g, ''); // remove surrounding quotes
-            return { week, title, url };
-          });
-          updateVideoSelect();
-        })
-        .catch(err => {
-          console.error(err);
-          alert('Unable to load the video list for that grade. Make sure the CSV file exists and that you are serving this site over http:// or https:// (opening index.html directly will block fetch).');
-        });
-    });
 
-    select.addEventListener("change", () => {
-      const selected = select.options[select.selectedIndex];
-      if (!selected.value) {
-        display.style.display = "none";
-        return;
+      player.hidden = false;
+      prevBtn.disabled = i === 0;
+      nextBtn.disabled = i === videos.length - 1;
+
+      document.querySelectorAll('.week-card').forEach((el, idx) => {
+        const active = idx === i;
+        el.classList.toggle('is-active', active);
+        if (active) el.setAttribute('aria-current', 'true');
+        else el.removeAttribute('aria-current');
+      });
+
+      // keep the player in view on phones (it sits above the grid)
+      player.scrollIntoView({ block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+    }
+
+    function setGrade(grade) {
+      gradeButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.grade === grade)));
+      if (grade) document.body.dataset.grade = grade;
+      else delete document.body.dataset.grade;
+      try { grade ? localStorage.setItem(GRADE_KEY, grade) : localStorage.removeItem(GRADE_KEY); } catch (e) {}
+    }
+
+    async function loadGrade(grade) {
+      setGrade(grade);
+      videos = [];
+      current = -1;
+      player.hidden = true;
+      frame.removeAttribute('src');
+      weeksEl.innerHTML = '<p class="empty">Loading read-alouds… ⏳</p>';
+      setStatus('');
+      try {
+        const res = await fetch(`grades/${grade}.csv`, { cache: 'no-cache' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = await res.text();
+        videos = text.trim().split(/[\r\n]+/).slice(1)
+          .map(parseCSVLine)
+          .filter(cols => cols.length >= 3 && cols[0].trim())
+          .map(cols => ({
+            week: +cols[0] || cols[0].trim(),
+            title: cols[1].replace(/^"|"$/g, '').trim(),
+            url: cols[2].trim()
+          }));
+        renderWeeks();
+      } catch (err) {
+        console.error(err);
+        weeksEl.innerHTML = '<p class="empty">We could not load that grade. 😕</p>';
+        setStatus('Could not load the read-aloud list. Refresh the page and try again.', true);
       }
-      title.textContent = selected.dataset.title;
-      const embedUrl = selected.value.replace("watch?v=", "embed/");
-      frame.src = embedUrl;
-      display.style.display = "block";
-    });
+    }
+
+    gradeButtons.forEach(btn => btn.addEventListener('click', () => {
+      const grade = btn.dataset.grade;
+      if (btn.getAttribute('aria-pressed') === 'true') return;
+      loadGrade(grade);
+    }));
+
+    prevBtn.addEventListener('click', () => select(current - 1));
+    nextBtn.addEventListener('click', () => select(current + 1));
+
+    let saved = null;
+    try { saved = localStorage.getItem(GRADE_KEY); } catch (e) {}
+    if (saved && gradeButtons.some(b => b.dataset.grade === saved)) loadGrade(saved);
   </script>
 </body>
 </html>
