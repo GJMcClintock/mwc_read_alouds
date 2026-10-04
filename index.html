@@ -114,7 +114,7 @@
       color: var(--ink);
       background: var(--card);
       border: 3px solid #e6ebf3;
-      border-radius: var(--radius);
+      border-radius: 999px;
       box-shadow: var(--shadow);
       cursor: pointer;
       transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
@@ -288,7 +288,8 @@
     footer a:hover { color: var(--coral); }
 
     /* ---------- a11y ---------- */
-    :focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: 8px; }
+    /* outline follows each element's own border-radius in modern browsers */
+    :focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
 
     .sr-only {
       position: absolute; width: 1px; height: 1px;
