@@ -16,7 +16,7 @@
       --coral: #ff7a59;
       --teal: #14b8a6;
       --violet: #7c5cff;
-      --radius: 22px;
+      --yellow: #ffc93c;
       --shadow: 0 10px 24px rgba(34, 49, 74, .10);
       --shadow-lift: 0 16px 32px rgba(34, 49, 74, .18);
     }
@@ -76,10 +76,14 @@
       font-weight: 700;
       line-height: 1.05;
       letter-spacing: -.02em;
-      background: linear-gradient(96deg, #d93a10 0%, #c0246e 48%, #4338ca 100%);
+      /* bright wordmark + dark halo: keeps the playful colors, buys the contrast */
+      background: linear-gradient(100deg, var(--coral), var(--yellow) 48%, var(--violet));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      filter:
+        drop-shadow(0 2px 0 rgba(34, 49, 74, .85))
+        drop-shadow(0 0 5px rgba(34, 49, 74, .45));
     }
 
     .sub {
