@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Math with Confidence — Read-Alouds</title>
-  <meta name="description" content="Weekly read-aloud videos to go with Kate Snow's Math with Confidence curriculum, for kindergarten through 2nd grade." />
+  <meta name="description" content="Read-aloud videos to go with Kate Snow's Math with Confidence curriculum, for kindergarten through 3rd grade. K-2 by week, 3rd grade by unit." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -17,6 +17,7 @@
       --teal: #14b8a6;
       --violet: #7c5cff;
       --yellow: #ffc93c;
+      --blue: #2563eb;
       --shadow: 0 10px 24px rgba(34, 49, 74, .10);
       --shadow-lift: 0 16px 32px rgba(34, 49, 74, .18);
     }
@@ -96,7 +97,7 @@
     /* ---------- grade buttons ---------- */
     .grades {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: .75rem;
       margin: 0 0 1rem;
     }
@@ -132,6 +133,7 @@
     .grade[data-grade="K"][aria-pressed="true"]   { background: var(--coral); }
     .grade[data-grade="1st"][aria-pressed="true"] { background: var(--teal); }
     .grade[data-grade="2nd"][aria-pressed="true"] { background: var(--violet); }
+    .grade[data-grade="3rd"][aria-pressed="true"] { background: var(--blue); }
 
     .note {
       margin: 1rem 0 1.25rem;
@@ -255,10 +257,12 @@
     body[data-grade="K"] .week-card.is-active   { background: #fff1ec; border-color: var(--coral);  color: var(--coral); }
     body[data-grade="1st"] .week-card.is-active { background: #e8fbf8; border-color: var(--teal);   color: #0d8f81; }
     body[data-grade="2nd"] .week-card.is-active { background: #f1edff; border-color: var(--violet); color: var(--violet); }
+    body[data-grade="3rd"] .week-card.is-active { background: #eaf1ff; border-color: var(--blue);   color: var(--blue); }
 
     body[data-grade="K"] .wk-num   { background: #fff1ec; color: #d94f28; }
     body[data-grade="1st"] .wk-num { background: #e8fbf8; color: #0d8f81; }
     body[data-grade="2nd"] .wk-num { background: #f1edff; color: #5b3ef0; }
+    body[data-grade="3rd"] .wk-num { background: #eaf1ff; color: var(--blue); }
 
     .status { margin: 1rem .2rem; text-align: center; color: var(--ink-soft); font-size: .95rem; }
     .status.is-error { color: #b42318; background: #fff1f0; border-radius: 14px; padding: .8rem 1rem; }
@@ -312,26 +316,29 @@
   <header class="hero">
     <p class="kicker">📚 Math with Confidence</p>
     <h1>Read-Alouds</h1>
-    <p class="sub">Pick a grade, then pick a week. Grab a cozy spot and enjoy a math story together!</p>
+    <p class="sub">Pick a grade, then pick a week (3rd grade goes by unit). Grab a cozy spot and enjoy a math story together!</p>
   </header>
 
   <main class="wrap">
     <section aria-labelledby="grade-heading">
       <h2 id="grade-heading" class="sr-only">Choose a grade</h2>
       <div class="grades" role="group" aria-label="Choose a grade">
-        <button type="button" class="grade" data-grade="K" aria-pressed="false">
+        <button type="button" class="grade" data-grade="K" data-unit="week" aria-pressed="false">
           <span class="g-emoji" aria-hidden="true">🐣</span><span class="g-name">Kindergarten</span>
         </button>
-        <button type="button" class="grade" data-grade="1st" aria-pressed="false">
+        <button type="button" class="grade" data-grade="1st" data-unit="week" aria-pressed="false">
           <span class="g-emoji" aria-hidden="true">🌟</span><span class="g-name">1st Grade</span>
         </button>
-        <button type="button" class="grade" data-grade="2nd" aria-pressed="false">
+        <button type="button" class="grade" data-grade="2nd" data-unit="week" aria-pressed="false">
           <span class="g-emoji" aria-hidden="true">🚀</span><span class="g-name">2nd Grade</span>
+        </button>
+        <button type="button" class="grade" data-grade="3rd" data-unit="unit" aria-pressed="false">
+          <span class="g-emoji" aria-hidden="true">🧮</span><span class="g-name">3rd Grade</span>
         </button>
       </div>
     </section>
 
-    <p class="note">💡 Not every book is available on YouTube, so a few weeks link to a similar read-aloud instead.</p>
+    <p class="note">💡 Not every book is available on YouTube, so a few weeks (or units, in 3rd grade) link to a similar read-aloud instead.</p>
 
     <section id="player" class="player" hidden aria-label="Now playing">
       <div class="player-head">
@@ -419,6 +426,13 @@
     const nextBtn = document.getElementById('next');
     const GRADE_KEY = 'mwc-grade';
 
+    // 3rd grade is organized by unit; K-2 by week. Each grade button carries data-unit.
+    const UNITS = {
+      week: { one: 'Week', many: 'Weeks', lower: 'weeks' },
+      unit: { one: 'Unit', many: 'Units', lower: 'units' }
+    };
+    let unit = UNITS.week;
+
     let videos = [];
     let current = -1;
 
@@ -432,7 +446,7 @@
     function renderWeeks() {
       weeksEl.innerHTML = '';
       if (!videos.length) {
-        weeksEl.innerHTML = '<p class="empty">No weeks found for this grade yet. 🧐</p>';
+        weeksEl.innerHTML = `<p class="empty">No ${unit.lower} found for this grade yet. 🧐</p>`;
         return;
       }
       videos.forEach((v, i) => {
@@ -443,7 +457,7 @@
 
         const num = document.createElement('span');
         num.className = 'wk-num';
-        num.innerHTML = `<small>WEEK</small>${v.week}`;
+        num.innerHTML = `<small>${unit.one.toUpperCase()}</small>${v.week}`;
 
         const t = document.createElement('span');
         t.className = 'wk-title';
@@ -461,7 +475,7 @@
       const v = videos[i];
 
       const embed = toEmbed(v.url);
-      playerWeek.textContent = `Week ${v.week}`;
+      playerWeek.textContent = `${unit.one} ${v.week}`;
       playerTitle.textContent = v.title;
       if (embed) {
         frame.src = embed;
@@ -470,7 +484,7 @@
       } else {
         frame.removeAttribute('src');
         frame.hidden = true;
-        setStatus('Sorry — that week has a link we could not play here.', true);
+        setStatus(`Sorry — that ${unit.one.toLowerCase()} has a link we could not play here.`, true);
       }
 
       player.hidden = false;
@@ -497,6 +511,10 @@
 
     async function loadGrade(grade) {
       setGrade(grade);
+      unit = UNITS[gradeButtons.find(b => b.dataset.grade === grade)?.dataset.unit] || UNITS.week;
+      document.getElementById('weeks-heading').textContent = unit.many;
+      prevBtn.setAttribute('aria-label', `Previous ${unit.one.toLowerCase()}`);
+      nextBtn.setAttribute('aria-label', `Next ${unit.one.toLowerCase()}`);
       videos = [];
       current = -1;
       player.hidden = true;
